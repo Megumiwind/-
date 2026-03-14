@@ -12,9 +12,9 @@ from __future__ import annotations
 
 import hashlib
 from dataclasses import dataclass
-from typing import Dict, List, Sequence, Set, Tuple
+from typing import Any, Dict, List, Sequence, Set, Tuple
 
-from sage.all import Matrix, Vector, ZZ, random_matrix, vector
+from sage.all import Matrix, ZZ, random_matrix, vector
 
 
 @dataclass
@@ -23,12 +23,12 @@ class PublicParams:
     n: int
     m: int
     A: Matrix
-    u: Vector
+    u: Any
 
 
 @dataclass
 class MasterSecret:
-    s: Vector
+    s: Any
 
 
 @dataclass
@@ -40,7 +40,7 @@ class UserSecretKey:
 @dataclass
 class Ciphertext:
     policy: Tuple[str, ...]
-    c1: Vector
+    c1: Any
     c2: int
 
 
@@ -57,7 +57,7 @@ class ToyLatticeABE:
         self.m = m
         self.noise_bound = noise_bound
 
-    def _sample_small_vector(self, length: int) -> Vector:
+    def _sample_small_vector(self, length: int) -> Any:
         entries = [ZZ.random_element(-self.noise_bound, self.noise_bound + 1) for _ in range(length)]
         return vector(ZZ, entries)
 
@@ -68,7 +68,7 @@ class ToyLatticeABE:
             r -= self.q
         return r
 
-    def _hash_to_vec(self, attr: str) -> Vector:
+    def _hash_to_vec(self, attr: str) -> Any:
         """Deterministically map attribute string to Z_q^n."""
         chunks: List[int] = []
         counter = 0
